@@ -1,0 +1,43 @@
+<order>
+    <details>
+        <quantity>3</quantity>
+        <bracket>18</bracket>
+        <stock>(S30) Standard Smooth</stock>
+        <foil>false</foil>
+    </details>
+    <fronts>
+        <card>
+            <id>1FxH0xUPOQqYSEigoGA7DRvWGIdqxWC8S</id>
+            <slots>0</slots>
+            <name>Jin-Gitaxias (c).png</name>
+            <query>jin gitaxias</query>
+        </card>
+        <card>
+            <id>1OQkhsnMZlZrKFZyXOYOWfAwpoIRmdqlP</id>
+            <slots>1</slots>
+            <name>Sol Ring (Extended Black Dom).png</name>
+            <query>sol ring</query>
+        </card>
+        <card>
+            <id>1cS-_VLqAJu4nLFvNpuS4XrUruAOi3uen</id>
+            <slots>2</slots>
+            <name>Docent of Perfection.png</name>
+            <query>docent of perfection</query>
+        </card>
+    </fronts>
+    <backs>
+        <card>
+            <id>1_cQNisGztaA4UVyx132eBjh7pP9cxblx</id>
+            <slots>0</slots>
+            <name>The Great Synthesis (a).png</name>
+            <query>great synthesis</query>
+        </card>
+        <card>
+            <id>1cSHdccFzmTAWgTq8icynI3ud-jh20w6t</id>
+            <slots>2</slots>
+            <name>Final Iteration.png</name>
+            <query>final iteration</query>
+        </card>
+    </backs>
+    <cardback>1LrVX0pUcye9n_0RtaDNVl2xPrQgn7CYf</cardback>
+</order>
