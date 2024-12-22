@@ -1,7 +1,7 @@
 import os
 import xml.etree.ElementTree as ET
 import secrets
-from PIL import Image, ImageOps
+from PIL import Image, UnidentifiedImageError
 
 xml_path = ""
 updated_xml_name = ""
@@ -18,11 +18,16 @@ card_slot_mapping = {}
 xml_tree = None
 
 # Sets the DPI of given image
-def set_dpi(imagePath, dpi):
-    img = Image.open(imagePath)
-    img = img.convert('RGB')
-    img.save(imagePath, dpi=(dpi, dpi))
-    print(f"DPI set to {dpi} for {imagePath}")
+def set_dpi(imagePath, target_dpi):
+    try:
+        with Image.open(imagePath) as img:
+            img = img.convert('RGB')  # Ensure image is in the correct mode
+            img.save(imagePath, dpi=(target_dpi, target_dpi))
+            print(f"DPI set to {target_dpi} for {imagePath}")
+    except UnidentifiedImageError:
+        print(f"Skipped: {imagePath} is not a valid image.")
+    except OSError as e:
+        print(f"Error processing {imagePath}: {e}")
 
 # Added Block boarder around images
 def add_border(imagePath, borderSize):
@@ -38,6 +43,40 @@ def process_image(folder_path, image_name, add_padding):
     if(add_padding):
         add_border(imagePath, padding_size)
 
+def calculate_bracket(quantity):
+    """Determine the bracket value based on quantity."""
+    if quantity <= 18:
+        return 18
+    elif quantity <= 36:
+        return 36
+    elif quantity <= 55:
+        return 55
+    elif quantity <= 72:
+        return 72
+    elif quantity <= 90:
+        return 90
+    elif quantity <= 108:
+        return 108
+    elif quantity <= 126:
+        return 126
+    elif quantity <= 144:
+        return 144
+    elif quantity <= 162:
+        return 162
+    elif quantity <= 180:
+        return 180
+    elif quantity <= 198:
+        return 198
+    elif quantity <= 216:
+        return 216
+    elif quantity <= 234:
+        return 234
+    elif quantity <= 396:
+        return 396
+    elif quantity <= 504:
+        return 504
+    else:
+        return 612
 
 def add_front_images_to_order(xml_path, image_dir, output_xml):
     global xml_tree
@@ -70,18 +109,18 @@ def add_front_images_to_order(xml_path, image_dir, output_xml):
             ET.SubElement(new_card, 'name').text = image_name
             ET.SubElement(new_card, 'query').text = os.path.splitext(image_name)[0].replace('_', ' ')
 
-            # if current_slot % 2 == 0: 
-            #     back_card = ET.SubElement(backs, 'card')
-            #     back_card_id = f"new_back_{current_slot}"
-            #     ET.SubElement(back_card, 'id').text = back_card_id
-            #     ET.SubElement(back_card, 'slots').text = str(current_slot)
-            #     ET.SubElement(back_card, 'name').text = f"Back of {image_name}"
-            #     ET.SubElement(back_card, 'query').text = f"back {os.path.splitext(image_name)[0]}"
 
             current_slot += 1
             cards_added_count += 1
 
-    quantity_tag.text = str(initial_quantity + cards_added_count)
+    total_quantity = initial_quantity + cards_added_count
+    quantity_tag.text = str(total_quantity)
+
+
+    # Set the appropriate bracket
+    bracket_tag = details.find('bracket')
+    bracket_value = calculate_bracket(total_quantity)
+    bracket_tag.text = str(bracket_value)
 
     # Write the updated XML to a new file
     xml_tree.write(output_xml, encoding='unicode')
